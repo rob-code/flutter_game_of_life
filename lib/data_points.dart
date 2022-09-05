@@ -7,6 +7,18 @@ class ArrayData {
   var randomNumberGenerator = Random();
   List<ArrayDataPoint> data = [];
   int numberOfGenerations = 0;
+
+  List<ArrayDataPoint> getArray(size) {
+    if (numberOfGenerations == 0) {
+      data = getRandomStarterArray(size);
+      debugPrint("here");
+      return data;
+    } else {
+      data = getNextGeneration(data, size);
+      return data;
+    }
+  }
+
   List<ArrayDataPoint> getRandomStarterArray(size) {
     for (var i = 0; i < size.width; i++) {
       for (var j = 0; j < size.height; j++) {
@@ -14,14 +26,13 @@ class ArrayData {
       }
     }
     numberOfGenerations++;
-    debugPrint("got here ${numberOfGenerations.toString()}");
     return data;
   }
 
   List<ArrayDataPoint> getNextGeneration(data, size) {
     int w = size.width.round();
 
-    for (var i = 249120; i < data.length; i++) {
+    for (var i = 0; i < data.length; i++) {
       List<ArrayDataPoint> localArray = [];
       var trueCount = 0;
 
@@ -54,6 +65,8 @@ class ArrayData {
           trueCount++;
         }
       }
+
+      debugPrint("truecount is ${trueCount.toString()}");
 
       switch (trueCount) {
         case 0:
