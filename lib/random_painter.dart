@@ -1,11 +1,11 @@
 import 'package:drawing_app/array_data_point.dart';
 import 'package:flutter/material.dart';
 import 'dart:core';
-import 'package:drawing_app/array_data.dart';
+import 'package:drawing_app/data_points.dart';
 
 class RandomPainter extends CustomPainter {
-  RandomPainter() : super();
-
+  final double value;
+  RandomPainter(this.value);
   final arrayData = ArrayData();
   List<ArrayDataPoint> data = [];
 
@@ -16,21 +16,11 @@ class RandomPainter extends CustomPainter {
       ..strokeCap = StrokeCap.round
       ..strokeWidth = 5.0;
 
-    debugPrint(
-        "number of generations = ${arrayData.numberOfGenerations.toString()}");
-
-    var rect = Rect.fromCenter(
-        center: const Offset(0, 0), width: size.width, height: size.height);
-
     if (arrayData.numberOfGenerations == 0) {
       data = arrayData.getRandomStarterArray(size);
-      debugPrint("getting random starter array");
     } else {
       data = arrayData.getNextGeneration(data, size);
-      debugPrint("getting next generation");
     }
-
-    canvas.drawRect(rect, paint);
 
     for (var i = 0; i < data.length; i++) {
       if (data.elementAt(i).value) {
@@ -41,15 +31,9 @@ class RandomPainter extends CustomPainter {
             paint);
       }
     }
+//    debugPrint("count is ${count.toString()}");
   }
 
   @override
   bool shouldRepaint(covariant RandomPainter oldDelegate) => true;
 }
-
-/*
-@override
-bool? hitTest(Offset position) {
-  return rect.contains(position);
-}
-*/

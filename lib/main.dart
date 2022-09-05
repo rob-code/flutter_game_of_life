@@ -21,22 +21,42 @@ class MyApp extends StatelessWidget {
   }
 }
 
-class BlankEasel extends StatelessWidget {
-  const BlankEasel({Key? key}) : super(key: key);
+class BlankEasel extends StatefulWidget {
+  const BlankEasel({super.key});
 
-  final bool hasCHanged = false;
+  @override
+  BlankEaselState createState() => BlankEaselState();
+}
+
+class BlankEaselState extends State<BlankEasel>
+    with SingleTickerProviderStateMixin {
+  late AnimationController _controller;
+
+  @override
+  void initState() {
+    _controller = AnimationController(
+      vsync: this,
+      duration: const Duration(seconds: 5),
+    )..forward();
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.yellow[50],
-      body: SizedBox(
-        width: 300,
-        height: 300.0,
-        child: CustomPaint(
-          painter: RandomPainter(),
-          isComplex: true,
-          willChange: true,
+      body: SizedBox.expand(
+        child: AnimatedBuilder(
+          animation: _controller,
+          builder: (_, __) => CustomPaint(
+            painter: RandomPainter(_controller.value),
+          ),
         ),
       ),
     );
