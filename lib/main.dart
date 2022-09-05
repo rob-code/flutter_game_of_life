@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'dart:async';
 import 'package:drawing_app/random_painter.dart';
 import 'package:drawing_app/data_points.dart';
-import 'package:drawing_app/array_data_point.dart';
 
 void main() {
   runApp(const MyApp());
@@ -31,12 +30,9 @@ class BlankEasel extends StatefulWidget {
   BlankEaselState createState() => BlankEaselState();
 }
 
-class BlankEaselState extends State<BlankEasel> {
-  final arrayData = ArrayData();
-  List<ArrayDataPoint> data = [];
-  int count = 0;
-
-  /*
+class BlankEaselState extends State<BlankEasel>
+    with AutomaticKeepAliveClientMixin<BlankEasel> {
+/*
   late AnimationController _controller;
   @override
   void initState() {
@@ -53,6 +49,9 @@ class BlankEaselState extends State<BlankEasel> {
   }
 */
 
+  @override
+  bool get wantKeepAlive => true;
+
   late DateTime _initialTime;
   // 1. declare a Timer
   late final Timer _timer;
@@ -62,9 +61,11 @@ class BlankEaselState extends State<BlankEasel> {
   void initState() {
     super.initState();
     _initialTime = DateTime.now();
+    // 2. initialize it
     _timer = Timer.periodic(const Duration(milliseconds: 1000), (_) {
+      // 3. get the current time
       final now = DateTime.now();
-
+      // 4. update the state (elapsed time)
       setState(() {
         _elapsed = now.difference(_initialTime);
       });
