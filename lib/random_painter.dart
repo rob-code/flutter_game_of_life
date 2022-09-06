@@ -86,7 +86,6 @@ class RandomPainter extends CustomPainter {
     }
 
     canvas.restore();
-
     /*
       else {
         canvas.drawCircle(
